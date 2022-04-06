@@ -30,10 +30,6 @@ enum pin_config {
 SoftwareSerial wifi_module(WIFI_RX_PIN, WIFI_TX_PIN);
 WiFiEspClient server_conn;
 
-const char net_ssid[] PROGMEM = NET_SSID;
-const char net_pass[] PROGMEM = NET_PASS;
-const char scr_server[] PROGMEM = SERVER_ROUTE;
-
 unsigned long last_detection = 0;
 
 unsigned long mot_duration = -1;
@@ -55,7 +51,7 @@ void setup() {
   WiFi.init(&wifi_module);
 
   if(net_status != WL_CONNECTED) {
-    net_status = WiFi.begin(net_ssid, net_pass);
+    net_status = WiFi.begin(NET_SSID, NET_PASS);
   }
 
   if(net_status == WL_CONNECTED) {
@@ -81,7 +77,7 @@ int post_request(const char* server_url, String route, String data) {
   
   server_conn.stop();
   
-  server_conn_status = server_conn.connect(server_url, 80);
+  server_conn_status = server_conn.connect(server_url, PORT);
   
   if(server_conn_status) {
     //POST request form
@@ -93,9 +89,7 @@ int post_request(const char* server_url, String route, String data) {
     server_conn.print(data);
     server_conn.print("\r\n\r\n");
   } else {
-#ifdef __SCR_DEBUG__
-    Serial.println("Connection could not be established...");
-#endif
+    PRINT_DEBUG("Connection could not be established...");
     return -1;
   }
 
@@ -106,7 +100,8 @@ void action(float motion_trig_dist) {
   PRINT_DEBUG(">>> Called action() <<<");
   PRINT_DEBUG("Dist: " + String(motion_trig_dist));
 
-  String msg = "Disturbance detected: " + String(motion_trig_dist) + " cm away from sensor";
+  //String msg = "Disturbance detected: " + String(motion_trig_dist) + " cm away from sensor";
+  String msg(motion_trig_dist);
 
   for(int i = 0; i < BEEPS; i++) {
     tone(BUZZER_PIN, 1440);
@@ -114,7 +109,10 @@ void action(float motion_trig_dist) {
     noTone(BUZZER_PIN);
   }
 
-  post_request(scr_server, "/postData", msg);
+  if(post_request(SERVER_ROUTE, "/postData/" + String(USER_ID), msg) == 0) {
+    PRINT_DEBUG("Packet delivered.");
+  }
+  
   last_detection = millis();
 }
 
