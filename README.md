@@ -33,10 +33,11 @@ Wi-Fi мрежа. ScruTINY осъществява предназначениет
 - За микроконтролера
     - [WiFiEsp - библиотека за работа с Wi-FI модула(като shield)](https://github.com/bportaluri/WiFiEsp)
 
-- За [сървъра](https://github.com/generot/ScruTINY-online)
+- За [**сървъра**](https://github.com/generot/ScruTINY-online)
     - [Heroku](https://www.heroku.com/)
     - [Flask](https://flask.palletsprojects.com/en/2.1.x/)
     - [Socket.IO](https://socket.io/)
+    - [MongoDB](https://www.mongodb.com/)
 
 ## Автор на проекта
 - Мартин Наков(10 клас)
