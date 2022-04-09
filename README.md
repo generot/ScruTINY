@@ -7,7 +7,7 @@
 [![Espressif](https://img.shields.io/badge/espressif-E7352C?style=for-the-badge&logo=espressif&logoColor=white)](https://www.espressif.com/)
 
 ## Какво е ScruTINY?
-ScruTINY е преносима система за защита, може да бъде поставена на всякъде, по всяко време. 
+ScruTINY е преносима система за защита, може да бъде поставена навсякъде, по всяко време. 
 Тя е приспособена за безжична комуникация със собственика си.
 
 ## Начин на действие.
